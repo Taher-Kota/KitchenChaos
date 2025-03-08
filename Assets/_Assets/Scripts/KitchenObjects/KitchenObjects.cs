@@ -5,6 +5,7 @@ using UnityEngine;
 public class KitchenObjects : MonoBehaviour
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
+
     private IKitchenObjectParent KitchenObjectParent;
 
     public KitchenObjectSO GetScriptableObject()
@@ -20,7 +21,6 @@ public class KitchenObjects : MonoBehaviour
         }
         else
         {
-            print("net");
             this.KitchenObjectParent = KichenObjectParent;
         }
 
@@ -39,5 +39,20 @@ public class KitchenObjects : MonoBehaviour
     public IKitchenObjectParent GetKitchenObjectParent()
     {
         return KitchenObjectParent;
+    }
+
+    public void SelfDestroy(IKitchenObjectParent kitchenObjectParent)
+    {
+        kitchenObjectParent.ClearKitchenObjects();
+        Destroy(gameObject);
+    }
+
+
+    public static KitchenObjects SpawnKitchenObject(KitchenObjectSO slicedKitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
+    {
+        GameObject TempkitchenObject = Instantiate(slicedKitchenObjectSO.prefab);
+        KitchenObjects kitchenObjects = TempkitchenObject.GetComponent<KitchenObjects>();
+        kitchenObjects.SetKitchenObjectParent(kitchenObjectParent);
+        return kitchenObjects;
     }
 }

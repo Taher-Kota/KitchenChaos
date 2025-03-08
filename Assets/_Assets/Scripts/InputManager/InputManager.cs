@@ -7,12 +7,19 @@ public class InputManager : MonoBehaviour
 {
     private PlayerInputActions playerInputActions;
     public event EventHandler onInteract;
+    public event EventHandler onInteractAlternate;
 
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
         playerInputActions.Enable();
         playerInputActions.Player.Interact.performed += Interact_performed;
+        playerInputActions.Player.InteractAlternate.performed += InteractAlternate_performed;
+    }
+
+    private void InteractAlternate_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        onInteractAlternate?.Invoke(this, EventArgs.Empty);
     }
 
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
