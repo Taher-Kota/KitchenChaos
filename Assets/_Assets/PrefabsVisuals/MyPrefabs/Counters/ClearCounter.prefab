@@ -333,7 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 339d9272b6bbde04085ea2cbb493358f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kitchenObjectSO: {fileID: 11400000, guid: 8ba9aa6db624219439805c48aafa3a73, type: 2}
   spawnPoint: {fileID: 4209936772461041680}
 --- !u!4 &9076851665555702647 stripped
 Transform:
