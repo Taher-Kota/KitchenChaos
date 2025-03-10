@@ -15,15 +15,6 @@ public class KitchenObjects : MonoBehaviour
 
     public void SetKitchenObjectParent(IKitchenObjectParent KichenObjectParent)
     {
-        if (this.KitchenObjectParent != null)
-        {
-            this.KitchenObjectParent.ClearKitchenObjects();
-        }
-        else
-        {
-            this.KitchenObjectParent = KichenObjectParent;
-        }
-
         if (KichenObjectParent.HasKitchenObject())
         {
             Debug.LogError("Cannot placed two items");
