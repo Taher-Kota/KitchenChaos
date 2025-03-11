@@ -6,6 +6,7 @@ using UnityEngine;
 public class CuttingCounter : _BaseCounters
 {
     public event EventHandler OnCut;
+    public event EventHandler OnNotFullyCut;
     public event EventHandler<OnCuttingProgressClass> OnCuttingProgress;
     public class OnCuttingProgressClass : EventArgs
     {
@@ -36,8 +37,19 @@ public class CuttingCounter : _BaseCounters
         {
             if (!player.HasKitchenObject())
             {
+                OnNotFullyCut?.Invoke(this,EventArgs.Empty);
                 GetKitchenObjects().SetKitchenObjectParent(player);
                 this.ClearKitchenObjects();
+            }
+            else
+            {
+                if (player.GetKitchenObjects().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    if (plateKitchenObject.TryAddIngredients(GetKitchenObjects().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObjects().SelfDestroy(this);
+                    }
+                }
             }
         }
     }

@@ -40,6 +40,27 @@ public class StoveCounter : _BaseCounters
                     player.ClearKitchenObjects();
                 }
             }
+            else
+            {
+                if (player.GetKitchenObjects().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    if (plateKitchenObject.TryAddIngredients(GetKitchenObjects().GetKitchenObjectSO()))
+                    {
+                        StartUI?.Invoke(this, new ProgressBarUIHandler
+                        {
+                            maxTimer = 0f,
+                            state = State.Idle
+                        });
+                        if (burningCoroutine != null)
+                        {
+                            StopCoroutine(burningCoroutine);
+                            burningCoroutine = null;
+                        }
+                        OnBurned?.Invoke(this, EventArgs.Empty);
+                        GetKitchenObjects().SelfDestroy(this);
+                    }
+                }
+            }
         }
         else
         {
