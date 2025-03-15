@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,10 @@ public class DeliveryCounter : _BaseCounters
             {
                 player.GetKitchenObjects().SetKitchenObjectParent(this);
                 player.ClearKitchenObjects();
+                if (DeliveryManager.Instance.CheckOrderComplete(platekitchenObject))
+                {
+                    GetKitchenObjects().SelfDestroy(this);
+                }
             }
         }
         else
