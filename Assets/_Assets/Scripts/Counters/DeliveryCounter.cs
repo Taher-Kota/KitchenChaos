@@ -5,6 +5,15 @@ using UnityEngine;
 
 public class DeliveryCounter : _BaseCounters
 {
+    public static DeliveryCounter Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
     public override void Interact(Player player)
     {
         if (player.HasKitchenObject())

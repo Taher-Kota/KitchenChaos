@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour,IKitchenObjectParent
 {
+    public event EventHandler OnGrabObject;
     public static Player Instance;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
@@ -29,10 +30,6 @@ public class Player : MonoBehaviour,IKitchenObjectParent
         {
             Instance = this;
         }
-        else
-        {
-            Debug.LogError("there is more than one instance");
-        }
     }
     private void Start()
     {
@@ -42,6 +39,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
 
     private void InputManager_onInteractAlternate(object sender, EventArgs e)
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         if (selectedCounter != null)
         {
             selectedCounter.InteractAlternate(this);
@@ -50,6 +48,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
 
     private void InputManager_onInteract(object sender, System.EventArgs e)
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         if (selectedCounter != null)
         {
             selectedCounter.Interact(this);
@@ -174,6 +173,11 @@ public class Player : MonoBehaviour,IKitchenObjectParent
     public void SetNewKitchenObject(KitchenObjects kitchenObjects)
     {
         this.kitchenObjects = kitchenObjects;
+
+        if (kitchenObjects != null)
+        {
+            OnGrabObject?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public KitchenObjects GetKitchenObjects()

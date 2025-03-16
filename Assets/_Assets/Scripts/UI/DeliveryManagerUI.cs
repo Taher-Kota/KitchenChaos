@@ -1,16 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DeliveryManagerUI : MonoBehaviour
 {
     [SerializeField] private GameObject container;
     [SerializeField] private GameObject recipeTemplate;
+    [SerializeField] private TextMeshProUGUI waitingRecipeTxt;
 
     private void Awake()
     {
-        recipeTemplate.SetActive(false);
+        waitingRecipeTxt.gameObject.SetActive(true);
     }
 
     private void Start()

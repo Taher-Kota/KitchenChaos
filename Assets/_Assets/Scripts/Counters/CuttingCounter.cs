@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CuttingCounter : _BaseCounters
 {
+    public static event EventHandler OnCutting;
     public event EventHandler OnCut;
     public event EventHandler OnNotFullyCut;
     public event EventHandler<OnCuttingProgressClass> OnCuttingProgress;
@@ -68,6 +69,7 @@ public class CuttingCounter : _BaseCounters
                     progressCount =  (float)cuttingProgress / cuttingRecipeSO.maxCuttingProgress
                 });
                 OnCut?.Invoke(this, EventArgs.Empty);
+                OnCutting?.Invoke(this, EventArgs.Empty);
                 if (cuttingProgress == cuttingRecipeSO.maxCuttingProgress)
                 {
                     GetKitchenObjects().SelfDestroy(this);

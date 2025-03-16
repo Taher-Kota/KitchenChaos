@@ -8,11 +8,13 @@ public class DeliveryManager : MonoBehaviour
 {
     public event EventHandler OnSpawnRecipe;
     public event EventHandler OnCompleteDelivery;
+    public event EventHandler OnDeliverFailure;
     public static DeliveryManager Instance;
     [SerializeField] private ReceipeListSO receipeListSO;
     private List<RecepiesSO> waitingRecepieList;
     private float timer = 0f, maxTimer = 4f;
     private int maxOrderCount = 4;
+    private int recipeDeliveredCount = 0;
 
     private void Awake()
     {
@@ -37,7 +39,9 @@ private void Update()
             timer = 0f;
             if (waitingRecepieList.Count < maxOrderCount)
             {
-                RecepiesSO recepiesSO = receipeListSO.recipiesList[UnityEngine.Random.Range(0, receipeListSO.recipiesList.Count)];
+                System.Random rng = new System.Random();
+                int randomNum = rng.Next(0, receipeListSO.recipiesList.Count);
+                RecepiesSO recepiesSO = receipeListSO.recipiesList[randomNum];
                 waitingRecepieList.Add(recepiesSO);
                 OnSpawnRecipe?.Invoke(this, EventArgs.Empty);
             }
@@ -73,15 +77,22 @@ private void Update()
                 {
                     waitingRecepieList.Remove(currentRecepieList);
                     OnCompleteDelivery?.Invoke(this, EventArgs.Empty);
+                    recipeDeliveredCount++;
                     return true;
                 }
             }
         }
+        OnDeliverFailure?.Invoke(this, EventArgs.Empty);
         return false;
     }
 
     public List<RecepiesSO> GetRecepiesSOList()
     {
         return waitingRecepieList;
+    }
+
+    public int GetRecipeDeliverdCount()
+    {
+        return recipeDeliveredCount;
     }
 }
