@@ -6,6 +6,7 @@ using UnityEngine;
 public class _BaseCounters : MonoBehaviour,IKitchenObjectParent
 {
     public static event EventHandler OnDropObject; 
+
     [SerializeField] protected Transform spawnPoint;
     protected KitchenObjects kitchenObjects;
 

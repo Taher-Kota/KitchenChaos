@@ -26,6 +26,10 @@ public class DeliveryCounter : _BaseCounters
                 {
                     GetKitchenObjects().SelfDestroy(this);
                 }
+                else
+                {
+                    GetKitchenObjects().SelfDestroy(this);
+                }
             }
         }
         else

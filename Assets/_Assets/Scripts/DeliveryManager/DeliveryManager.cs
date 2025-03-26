@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeliveryManager : MonoBehaviour
@@ -34,7 +35,7 @@ public class DeliveryManager : MonoBehaviour
 private void Update()
     {
         timer += Time.deltaTime;
-        if (timer > maxTimer)
+        if (timer > maxTimer && GameManager.Instance.IsGamePlaying())
         {
             timer = 0f;
             if (waitingRecepieList.Count < maxOrderCount)

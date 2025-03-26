@@ -14,9 +14,8 @@ public class GameManager : MonoBehaviour
         GameOver
     }
     private GameState state;
-    private float WaitingToStartTimer = 1f;
     private float StartCountDownTimer = 3f;
-    private float GamePlayingTimer = 15f;
+    private float GamePlayingTimer = 180f;
 
     private void Awake()
     {
@@ -26,19 +25,26 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(WaitingToStart());
+        InputManager.Instance.OnGamePause += InputManager_OnGamePause;
+        InputManager.Instance.onInteract += InputManager_onInteract;
     }
 
-    IEnumerator WaitingToStart()
+    private void InputManager_onInteract(object sender, EventArgs e)
     {
-        yield return new WaitForSeconds(WaitingToStartTimer);
-        state = GameState.StartCountDown;
-        StartCoroutine(StartCountDown());
-        OnStateChanged?.Invoke(this, EventArgs.Empty);
+        if (state == GameState.WaitingToStart)
+        {
+            StartCoroutine(StartCountDown());
+        }
+    }
+
+    private void InputManager_OnGamePause(object sender, EventArgs e)
+    {
+        GamePauseUI.instance.ToggleGamePause();
     }
 
     IEnumerator StartCountDown()
     {
+        state = GameState.StartCountDown;
         yield return new WaitForSeconds(StartCountDownTimer);
         state = GameState.GamePlaying;
         StartCoroutine(GamePlaying());
@@ -60,6 +66,11 @@ public class GameManager : MonoBehaviour
     public bool IsCountDownStarted()
     {
         return state == GameState.StartCountDown;
+    }
+
+    public bool IsWaitingToStart()
+    {
+        return state == GameState.WaitingToStart;
     }
 
     public bool IsGameOver()

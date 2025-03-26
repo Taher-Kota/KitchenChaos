@@ -69,28 +69,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
         float moveDistance = moveSpeed * Time.deltaTime;
         canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerCollisionRadius
             , moveDir, moveDistance);
-        //if (!canMove)
-        //{
-        //    // try to move in X direction while Z direction is blocked
-        //    Vector3 dirX = new Vector3(moveDir.x, 0, 0).normalized;
-        //    canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerCollisionRadius
-        //     , dirX, moveDistance);
-        //    if (canMove)
-        //    {
-        //        moveDir = dirX;
-        //    }
-        //    else
-        //    {
-        //        //try to move in Z direction while X direction is blocked
-        //        Vector3 dirZ = new Vector3(0, 0, moveDir.z).normalized;
-        //        canMove = Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerCollisionRadius
-        //         , dirZ, moveDistance);
-        //        if (canMove)
-        //        {
-        //            moveDir = dirZ;
-        //        }
-        //    }
-        //}
+ 
         if (canMove)
         {
             transform.position += moveDir * moveDistance;
@@ -101,6 +80,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
 
     void HandleInteraction()
     {
+        if (Time.timeScale == 0f) return; // means if game is paused
         Vector3 inputVector = inputManager.GetVectorMovementNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
         float interactDistance = 2f;
@@ -129,26 +109,6 @@ public class Player : MonoBehaviour,IKitchenObjectParent
         {
             SetSelectCounter(null);
         }
-
-        //if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, interactDistance, counterLayer))
-        //{
-        //    if (raycastHit.transform.TryGetComponent<_BaseCounters>(out _BaseCounters counter))
-        //    {
-        //        if (selectedCounter != counter)
-        //        {
-        //            SetSelectCounter(counter);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        SetSelectCounter(null);
-        //    }
-        //}
-        //else
-        //{
-        //    SetSelectCounter(null);
-        //}
-
     }
 
     public bool IsWalking()

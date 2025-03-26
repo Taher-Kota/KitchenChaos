@@ -14,7 +14,7 @@ public class PlateCounter : _BaseCounters
     private void Update()
     {
         spawnTime += Time.deltaTime;
-        if (spawnTime > maxSpawnTime)
+        if (spawnTime > maxSpawnTime && GameManager.Instance.IsGamePlaying())
         {
             spawnTime = 0f;
             if (spawnAmount < maxSpawnAmount)

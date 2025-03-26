@@ -1,23 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StoveCounterSound : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
-    private void Start()
+    private StoveCounter stoveCounter;
+
+    private void Awake()
     {
-        StoveCounter.Instance.OnCooking += StoveCounter_OnCooking;
-        StoveCounter.Instance.OnCooked += StoveCounter_OnCooked;
+        stoveCounter = GetComponentInParent<StoveCounter>();
     }
 
-    private void StoveCounter_OnCooked(object sender, System.EventArgs e)
+    private void Start()
+    {
+        stoveCounter.OnCooking += StoveCounter_OnCooking;
+        stoveCounter.OnBurned += StoveCounter_OnBurned;
+    }
+
+    private void StoveCounter_OnBurned(object sender, System.EventArgs e)
     {
         audioSource.Stop();
     }
 
     private void StoveCounter_OnCooking(object sender, System.EventArgs e)
     {
+        audioSource.volume = SoundManager.Instance.GetVolume();
         audioSource.Play();
     }
 }

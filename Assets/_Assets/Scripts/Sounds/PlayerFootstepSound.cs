@@ -16,7 +16,7 @@ public class PlayerFootstepSound : MonoBehaviour
             {
                 timer = 0f;
                 AudioSource.PlayClipAtPoint(soundClipSO.footsteps[Random.Range(0, soundClipSO.footsteps.Length)],
-                    transform.position, 1f);
+                    transform.position, SoundManager.Instance.GetVolume());
             }
         }
     }

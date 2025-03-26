@@ -16,7 +16,6 @@ public class StoveCounter : _BaseCounters
     public static StoveCounter Instance;
     public event EventHandler OnCooking;
     public event EventHandler OnBurned;
-    public event EventHandler OnCooked;
     public event EventHandler<ProgressBarUIHandler> StartUI;
     public class ProgressBarUIHandler : EventArgs {
         public float maxTimer;
@@ -87,7 +86,6 @@ public class StoveCounter : _BaseCounters
                     burningCoroutine = null;
                 }
                 OnBurned?.Invoke(this, EventArgs.Empty);
-                OnCooked?.Invoke(this, EventArgs.Empty);
                 StartUI?.Invoke(this, new ProgressBarUIHandler
                 {
                     maxTimer = 0f,
@@ -126,7 +124,6 @@ public class StoveCounter : _BaseCounters
         yield return new WaitForSeconds(cookedRecipeSO.burnedTimer);
         Cook(kitchenObjectSO);
         OnBurned?.Invoke(this, EventArgs.Empty);
-        OnCooked?.Invoke(this, EventArgs.Empty);
     }
 
     private void Cook(KitchenObjectSO kitchenObjectSO)
